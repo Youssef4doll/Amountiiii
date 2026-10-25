@@ -1,34 +1,34 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.vehicule;
 import org.example.si.repository.vehiculerep;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@AllArgsConstructor
 public class vehiculeservice implements Ivehicule {
+    vehiculerep vehiculerep;
 
-    private final vehiculerep vehiculerep;
-
-    public vehiculeservice(vehiculerep clientrep) {
-        this.vehiculerep = clientrep;
-    }
-    public vehicule addvehicule(vehicule m) {
-        return vehiculerep.save(m);
-    }
-
-    public List<vehicule> getallvehicule() {
-
+    public List<vehicule> retrieveAllVehicules() {
         return vehiculerep.findAll();
     }
-    public vehicule getvehiculebyid (Long id) {
-        return vehiculerep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found: " + id));
+
+    public vehicule retrieveVehicule(Long vehiculeId) {
+        return vehiculerep.findById(vehiculeId).get();
     }
 
-    public void vehiculeclinet(Long id) {
-        vehiculerep.deleteById(id);
+    public vehicule addVehicule(vehicule vehicule) {
+        return vehiculerep.save(vehicule);
+    }
+
+    public void removeVehicule(Long vehiculeId) {
+        vehiculerep.deleteById(vehiculeId);
+    }
+
+    public vehicule modifyVehicule(vehicule vehicule) {
+        return vehiculerep.save(vehicule);
     }
 }
-
-

@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.equipement;
 import org.example.si.repository.equipementrep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class equipementservice implements Iequipement {
+    equipementrep equipementrep;
 
-    private final equipementrep equipementrep;
-
-    public equipementservice(equipementrep equipementrep) {
-        this.equipementrep = equipementrep;
-    }
-
-    public equipement addEquipement(equipement e) {
-        return equipementrep.save(e);
-    }
-
-    public List<equipement> getAllEquipements() {
+    public List<equipement> retrieveAllEquipements() {
         return equipementrep.findAll();
     }
 
-    public equipement getEquipementById(Long id) {
-        return equipementrep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipement not found: " + id));
+    public equipement retrieveEquipement(Long equipementId) {
+        return equipementrep.findById(equipementId).get();
     }
 
-    public void deleteEquipement(Long id) {
-        equipementrep.deleteById(id);
+    public equipement addEquipement(equipement equipement) {
+        return equipementrep.save(equipement);
+    }
+
+    public void removeEquipement(Long equipementId) {
+        equipementrep.deleteById(equipementId);
+    }
+
+    public equipement modifyEquipement(equipement equipement) {
+        return equipementrep.save(equipement);
     }
 }

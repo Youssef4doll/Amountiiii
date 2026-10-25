@@ -1,27 +1,31 @@
 package org.example.si.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class client {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClient;
-
     private String nom;
     private String prenom;
     private String email;
     private String telephone;
     private String numPermis;
     private LocalDate dateInscription;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
-    private List<reservation> reservations;
+    private Set<reservation> reservations;
 }

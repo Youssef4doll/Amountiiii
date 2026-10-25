@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.client;
 import org.example.si.repository.clientrep;
 import org.springframework.stereotype.Service;
@@ -7,32 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
+@AllArgsConstructor
 public class clientservice implements Iclient {
+    clientrep clientrep;
 
-    private final clientrep clientrep;
-
-    public clientservice(clientrep clientrep) {
-        this.clientrep = clientrep;
-    }
-    public client addclient(client c) {
-        return clientrep.save(c);
-    }
-
-    public List<client> getallClient() {
-
+    public List<client> retrieveAllClients() {
         return clientrep.findAll();
     }
-    public client getclientbyid (Long id) {
-        return clientrep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found: " + id));
+
+    public client retrieveClient(Long clientId) {
+        return clientrep.findById(clientId).get();
     }
 
-    public void deleteclinet(Long id) {
-        clientrep.deleteById(id);
+    public client addClient(client client) {
+        return clientrep.save(client);
     }
 
+    public void removeClient(Long clientId) {
+        clientrep.deleteById(clientId);
+    }
 
-
-
+    public client modifyClient(client client) {
+        return clientrep.save(client);
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.paiement;
 import org.example.si.repository.paiementrep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class paiementservice implements Ipaiement {
+    paiementrep paiementrep;
 
-    private final paiementrep paiementrep;
-
-    public paiementservice(paiementrep paiementrep) {
-        this.paiementrep = paiementrep;
-    }
-
-    public paiement addPaiement(paiement p) {
-        return paiementrep.save(p);
-    }
-
-    public List<paiement> getAllPaiements() {
+    public List<paiement> retrieveAllPaiements() {
         return paiementrep.findAll();
     }
 
-    public paiement getPaiementById(Long id) {
-        return paiementrep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paiement not found: " + id));
+    public paiement retrievePaiement(Long paiementId) {
+        return paiementrep.findById(paiementId).get();
     }
 
-    public void deletePaiement(Long id) {
-        paiementrep.deleteById(id);
+    public paiement addPaiement(paiement paiement) {
+        return paiementrep.save(paiement);
+    }
+
+    public void removePaiement(Long paiementId) {
+        paiementrep.deleteById(paiementId);
+    }
+
+    public paiement modifyPaiement(paiement paiement) {
+        return paiementrep.save(paiement);
     }
 }

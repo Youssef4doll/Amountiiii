@@ -1,26 +1,27 @@
 package org.example.si.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class paiement {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPaiement;
-
     private BigDecimal montant;
     private LocalDate datePaiement;
-    private String modePaiement;
-
+    @Enumerated(EnumType.STRING)
+    private ModePaiement modePaiement;
     @ManyToOne
-    @JoinColumn(name = "id_contrat", nullable = false)
     private contrat contrat;
 }

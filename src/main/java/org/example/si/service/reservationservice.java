@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.reservation;
 import org.example.si.repository.reservationrep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
+@AllArgsConstructor
 public class reservationservice implements Ireservation {
+    reservationrep reservationrep;
 
-    private final reservationrep reservationrep;
-
-    public reservationservice(reservationrep clientrep) {
-        this.reservationrep = clientrep;
-    }
-    public reservation addreservation(reservation m) {
-        return reservationrep.save(m);
-    }
-
-    public List<reservation> getallreservation() {
-
+    public List<reservation> retrieveAllReservations() {
         return reservationrep.findAll();
     }
-    public reservation getreservationbyid (Long id) {
-        return reservationrep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found: " + id));
+
+    public reservation retrieveReservation(Long reservationId) {
+        return reservationrep.findById(reservationId).get();
     }
 
-    public void deletereservation(Long id) {
-        reservationrep.deleteById(id);
+    public reservation addReservation(reservation reservation) {
+        return reservationrep.save(reservation);
+    }
+
+    public void removeReservation(Long reservationId) {
+        reservationrep.deleteById(reservationId);
+    }
+
+    public reservation modifyReservation(reservation reservation) {
+        return reservationrep.save(reservation);
     }
 }

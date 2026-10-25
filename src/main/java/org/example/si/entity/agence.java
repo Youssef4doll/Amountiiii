@@ -1,27 +1,31 @@
 package org.example.si.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class agence {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idagence;
-
+    private Long idAgence;
     private String nom;
     private String ville;
     private String adresse;
     private String telephone;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "agence")
-    private List<employe> employes;
-
+    private Set<employe> employes;
+    @JsonIgnore
     @OneToMany(mappedBy = "agence")
-    private List<vehicule> vehicules;
+    private Set<vehicule> vehicules;
 }

@@ -1,46 +1,37 @@
 package org.example.si.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class vehicule {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVehicule;
-
     private String immatriculation;
     private String marque;
     private String modele;
-    private String categorie;
+    @Enumerated(EnumType.STRING)
+    private CategorieVehicule categorie;
     private BigDecimal tarifJournalier;
-    private String statut;
-
+    @Enumerated(EnumType.STRING)
+    private StatutVehicule statut;
     @ManyToOne
-    @JoinColumn(name = "id_agence")
     private agence agence;
-
-    @OneToMany(mappedBy = "vehicule")
-    private List<maintenance> maintenances;
-
-    @OneToMany(mappedBy = "vehicule")
-    private List<reservation> reservations;
-
     @ManyToMany
-    @JoinTable(
-            name = "vehicule_equipement",
-            joinColumns = @JoinColumn(name = "id_vehicule"),
-            inverseJoinColumns = @JoinColumn(name = "id_equipement")
-    )
-    private List<equipement> equipements;
+    private Set<equipement> equipements;
+    @JsonIgnore
+    @OneToMany(mappedBy = "vehicule")
+    private Set<reservation> reservations;
 }

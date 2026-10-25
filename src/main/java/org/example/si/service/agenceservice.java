@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.agence;
 import org.example.si.repository.agencerep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class agenceservice implements Iagence {
+    agencerep agencerep;
 
-    private final agencerep agenceRepository;
-
-    public agenceservice(agencerep agencerep) {
-        this.agenceRepository = agencerep;
+    public List<agence> retrieveAllAgences() {
+        return agencerep.findAll();
     }
 
-    public agence addagence(agence a) {
-        return agenceRepository.save(a);
+    public agence retrieveAgence(Long agenceId) {
+        return agencerep.findById(agenceId).get();
     }
 
-    public List<agence> getAllAgences() {
-        return agenceRepository.findAll();
+    public agence addAgence(agence agence) {
+        return agencerep.save(agence);
     }
 
-    public agence getAgenceById(Long id) {
-        return agenceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Agence not found: " + id));
+    public void removeAgence(Long agenceId) {
+        agencerep.deleteById(agenceId);
     }
 
-    public void deleteAgence(Long id) {
-        agenceRepository.deleteById(id);
+    public agence modifyAgence(agence agence) {
+        return agencerep.save(agence);
     }
 }

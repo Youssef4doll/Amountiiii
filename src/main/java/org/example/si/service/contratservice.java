@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.contrat;
 import org.example.si.repository.contratrep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class contratservice implements Icontrat {
+    contratrep contratrep;
 
-    private final contratrep contratrep;
-
-    public contratservice(contratrep contratrep) {
-        this.contratrep = contratrep;
-    }
-
-    public contrat addContrat(contrat c) {
-        return contratrep.save(c);
-    }
-
-    public List<contrat> getAllContrats() {
+    public List<contrat> retrieveAllContrats() {
         return contratrep.findAll();
     }
 
-    public contrat getContratById(Long id) {
-        return contratrep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contrat not found: " + id));
+    public contrat retrieveContrat(Long contratId) {
+        return contratrep.findById(contratId).get();
     }
 
-    public void deleteContrat(Long id) {
-        contratrep.deleteById(id);
+    public contrat addContrat(contrat contrat) {
+        return contratrep.save(contrat);
+    }
+
+    public void removeContrat(Long contratId) {
+        contratrep.deleteById(contratId);
+    }
+
+    public contrat modifyContrat(contrat contrat) {
+        return contratrep.save(contrat);
     }
 }

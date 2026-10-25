@@ -1,5 +1,6 @@
 package org.example.si.service;
 
+import lombok.AllArgsConstructor;
 import org.example.si.entity.employe;
 import org.example.si.repository.employerep;
 import org.springframework.stereotype.Service;
@@ -7,28 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class employeservice implements Iemploye {
+    employerep employerep;
 
-    private final employerep employerep;
-
-    public employeservice(employerep employerep) {
-        this.employerep = employerep;
-    }
-
-    public employe addEmploye(employe e) {
-        return employerep.save(e);
-    }
-
-    public List<employe> getAllEmployes() {
+    public List<employe> retrieveAllEmployes() {
         return employerep.findAll();
     }
 
-    public employe getEmployeById(Long id) {
-        return employerep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employe not found: " + id));
+    public employe retrieveEmploye(Long employeId) {
+        return employerep.findById(employeId).get();
     }
 
-    public void deleteEmploye(Long id) {
-        employerep.deleteById(id);
+    public employe addEmploye(employe employe) {
+        return employerep.save(employe);
+    }
+
+    public void removeEmploye(Long employeId) {
+        employerep.deleteById(employeId);
+    }
+
+    public employe modifyEmploye(employe employe) {
+        return employerep.save(employe);
     }
 }

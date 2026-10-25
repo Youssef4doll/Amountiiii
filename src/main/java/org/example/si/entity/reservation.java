@@ -1,33 +1,32 @@
 package org.example.si.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class reservation {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReservation;
-
     private LocalDate dateDebut;
     private LocalDate dateFin;
-    private String statut;
-
+    @Enumerated(EnumType.STRING)
+    private StatutReservation statut;
     @ManyToOne
-    @JoinColumn(name = "id_vehicule")
     private vehicule vehicule;
-
     @ManyToOne
-    @JoinColumn(name = "id_client")
     private client client;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "reservation")
     private contrat contrat;
 }
